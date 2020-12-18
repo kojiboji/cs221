@@ -36,7 +36,7 @@ def better_bw_matching(fo, bwt, clone, count):
   while top <= bottom:
     if pattern:
       symbol = pattern[-1]
-      pattern = pattern[:-1]
+      pattern.pop()
       top = fo[symbol] + count[symbol][top]
       bottom = fo[symbol] + count[symbol][bottom+1] - 1
     else:
