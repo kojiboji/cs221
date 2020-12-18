@@ -2,7 +2,9 @@ import sys
 import random
 import pprint
 import time
+import gc
 from guppy import hpy
+
 
 import suffix_array
 import burrows_wheeler_transform
@@ -39,6 +41,7 @@ if __name__ == "__main__":
   if which == "sa":
     flo = []
     setup_end = time.perf_counter()
+    gc.collect()
     match_start = time.perf_counter()
     for i in range(x):
       flo.append(suffix_array.pattern_matching_with_suffix_array(genome, reads[i][0], sa))
@@ -56,10 +59,11 @@ if __name__ == "__main__":
   
   elif which == "bwt":
     n_matches = []
-    (fo, bwt, count) = burrows_wheeler_transform.make_everyting(genome, sa)
+    (fo, bwt, count) = burrows_wheeler_transform.make_everything(genome, sa)
     setup_end = time.perf_counter()
     del genome
     del sa
+    gc.collect()
     match_start = time.perf_counter()
     for i in range(x):
       n_matches.append(burrows_wheeler_transform.better_bw_matching(fo, bwt, reads[i][0], count))
