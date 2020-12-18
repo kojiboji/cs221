@@ -29,7 +29,8 @@ def make_everything_efficient(text, suffix_array, k, c):
   partial_sa = {i:suffix for i,suffix in enumerate(suffix_array) if suffix % k ==0}
   return (fo,bwt,partial_sa, checkpoint)
 
-def better_bw_matching(fo, bwt, pattern, count):
+def better_bw_matching(fo, bwt, clone, count):
+  pattern = [i for i in clone]
   top = 0
   bottom = len(bwt) - 1
   while top <= bottom:
@@ -42,13 +43,14 @@ def better_bw_matching(fo, bwt, pattern, count):
       return bottom - top + 1
   return 0
 
-def efficient_bw_matching(fo, bwt, pattern, partial_sa, k, checkpoint, c):
+def efficient_bw_matching(fo, bwt, clone, partial_sa, k, checkpoint, c):
+  pattern = [i for i in clone]
   top = 0
   bottom = len(bwt) - 1
   while top <= bottom:
     if pattern:
       symbol = pattern[-1]
-      pattern = pattern[:-1]
+      pattern.pop()
       top = fo[symbol] + getCount(symbol, top, checkpoint, c, bwt)
       bottom = fo[symbol] + getCount(symbol, bottom+1, checkpoint, c, bwt) - 1
     else:

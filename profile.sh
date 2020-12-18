@@ -1,4 +1,4 @@
-echo 'type, gen_len, x(num_reads, y(read_length), setup_time, match_time, base_memory, setup_memory' > $1.csv
+echo 'type, gen_len, x, y, setup_time, match_time, setup_memory, total_memory' > $1.csv
 python3 driver.py $1 1000000 10000 100 False >> $1.csv
 
 for (( y=1; y<=2**10; y*=2))
