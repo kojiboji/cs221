@@ -25,11 +25,7 @@ def make_everything(text, suffix_array):
 
 def make_everything_efficient(text, suffix_array, k, c):
   (fo, bwt, count) = make_everything(text, suffix_array)
-  print("count:")
-  pprint.pprint(count)
   checkpoint = {symbol: arr[0::c] for symbol,arr in count.items()}
-  print("Checkpoint:")
-  pprint.pprint(checkpoint)
   partial_sa = {i:suffix for i,suffix in enumerate(suffix_array) if suffix % k ==0}
   return (fo,bwt,partial_sa, checkpoint)
 
@@ -47,7 +43,6 @@ def better_bw_matching(fo, bwt, pattern, count):
   return 0
 
 def efficient_bw_matching(fo, bwt, pattern, partial_sa, k, checkpoint, c):
-  pprint.pprint(pattern)
   top = 0
   bottom = len(bwt) - 1
   while top <= bottom:
@@ -57,10 +52,21 @@ def efficient_bw_matching(fo, bwt, pattern, partial_sa, k, checkpoint, c):
       top = fo[symbol] + getCount(symbol, top, checkpoint, c, bwt)
       bottom = fo[symbol] + getCount(symbol, bottom+1, checkpoint, c, bwt) - 1
     else:
-      print(bottom - top + 1)
-      return bottom - top + 1
-  print(0)
-  return 0
+      positions = []
+      for i in range(top,bottom+1):
+        offset = 0
+        while(True):
+          if i in partial_sa.keys():
+            positions.append(partial_sa[i] + offset)
+            break
+          else:
+            symbol = bwt[i] 
+            offset += 1
+            occurence = getCount(symbol, i+1,checkpoint, c, bwt)
+            i = fo[symbol] + occurence - 1
+      
+      return positions
+  return None
 
 def getCount(symbol, place, checkpoint, c, bwt):
   last_checkpoint = int(place/c)
