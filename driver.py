@@ -106,7 +106,7 @@ if __name__ == "__main__":
   
   setup_time = setup_end - setup_start
   match_time = match_end - match_start
-  if which == "ebwt"
+  if which == "ebwt":
     print(which, gen_len, x, y, setup_time, match_time, base_memory, total_memory, k, c, sep=", ")
   else
     print(which, gen_len, x, y, setup_time, match_time, base_memory, total_memory, sep=", ")
