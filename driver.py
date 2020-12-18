@@ -75,7 +75,21 @@ if __name__ == "__main__":
       for i in range(x):
         if n_matches[i] < 1:
           raise ValueErro("No matches found")
-  
+    
+  elif which == "ebwt":
+    k  = int(sys.argv[6])
+    c  = int(sys.argv[7])
+
+    print("k:", k)
+    print("c:", c)
+    print("genome:")
+    pprint.pprint(genome)
+    
+    n_matches = []
+    (fo,bwt,partial_sa, checkpoint) = burrows_wheeler_transform.make_everything_efficient(genome, sa, k, c)
+    for i in range(x):
+      n_matches.append(burrows_wheeler_transform.efficient_bw_matching(fo, bwt, reads[i][0], partial_sa, k, checkpoint, c))
+
   else:
     raise ValueError("Yo, use 'sa' or 'bwt' to specify the tpye of pattern matching you want")
   
