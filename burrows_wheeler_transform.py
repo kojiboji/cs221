@@ -33,3 +33,6 @@ def better_bw_matching(fo, bwt, pattern, count):
     else:
       return bottom - top + 1
   return 0
+
+# def alignemnt_bw_matching(fo, bwt, pattern, count):
+
